@@ -12,8 +12,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 install.packages("readr")
 install.packages("dplyr")
+install.packages("ggplot2")
 library(readr)
 library(dplyr)
+library(ggplot2)
 ```
 ```{r}
 LAnewusers_Dec21Jan22 <- read.csv("newusers_20201201to20220101.csv",
@@ -34,11 +36,13 @@ filter(Country_ID == "MX" | Country_ID == "AR" | Country_ID == "CO" |
 Country_ID == "GT" | Country_ID == "HN" | Country_ID == "PE" |
 Country_ID == "EC")
 
-#reordered columns in chronological order
-LAnewusers_Dec21Jan22 <- LAnewusers_Dec21Jan22 %>% select("Country_ID", "2020_12",
-"2021_01", "2021_02", "2021_03", "2021_04", "2021_05", "2021_06", "2021_07",
-"2021_08", "2021_09", "2021_10", "2021_11", "2021_12", "2022_01", "Totals")
+#transposed rows/columns
+LAnewusers_Dec21Jan22_2 <- t(LAnewusers_Dec21Jan22[-1])
+colnames(LAnewusers_Dec21Jan22_2) <- LAnewusers_Dec21Jan22[, 1]
+
+#added columns for country and time
+LAnewusers_Dec21Jan22_2$Country <- c(3, 3, 6, 7, 8, 12)
 ```
-Note to self: also could have indexed 
-LAnewusers_Dec21Jan22[ , c(“Country_ID”, “2020_12”, “2021_01”, “2021_02”, “2021_03”, “2021_04”, “2021_05”, “2021_06”, “2021_07”, “2021_08”, “2021_09”, “2021_10”,
-“2021_11”, “2021_12”, “2022_01”, “Totals”)]
+
+
+
