@@ -1,0 +1,44 @@
+---
+title: "SA app user data Latin America 1Dec20-1Jan22"
+author: "Dani Behonick"
+date: "2/2/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages("readr")
+install.packages("dplyr")
+library(readr)
+library(dplyr)
+```
+```{r}
+LAnewusers_Dec21Jan22 <- read.csv("newusers_20201201to20220101.csv",
+skip = 1, head = FALSE, sep = ",")
+```
+
+*Data cleaning*
+```{r}
+#columns renamed
+colnames(LAnewusers_Dec21Jan22) <- c("Country_ID", "2021_01",
+"2020_12", "2021_06", "2021_11", "2021_05", "2021_02", "2021_08",
+"2021_12", "2021_07", "2021_10", "2021_09", "2021_04", "2021_03",
+"2022_01", "Totals")
+
+#header rows and data entries for non-Wyss LA countries removed
+LAnewusers_Dec21Jan22 <- LAnewusers_Dec21Jan22 %>%
+filter(Country_ID == "MX" | Country_ID == "AR" | Country_ID == "CO" |
+Country_ID == "GT" | Country_ID == "HN" | Country_ID == "PE" |
+Country_ID == "EC")
+
+#reordered columns in chronological order
+LAnewusers_Dec21Jan22 <- LAnewusers_Dec21Jan22 %>% select("Country_ID", "2020_12",
+"2021_01", "2021_02", "2021_03", "2021_04", "2021_05", "2021_06", "2021_07",
+"2021_08", "2021_09", "2021_10", "2021_11", "2021_12", "2022_01", "Totals")
+```
+Note to self: also could have indexed 
+LAnewusers_Dec21Jan22[ , c(“Country_ID”, “2020_12”, “2021_01”, “2021_02”, “2021_03”, “2021_04”, “2021_05”, “2021_06”, “2021_07”, “2021_08”, “2021_09”, “2021_10”,
+“2021_11”, “2021_12”, “2022_01”, “Totals”)]
