@@ -18,38 +18,38 @@ library(dplyr)
 library(ggplot2)
 ```
 ```{r}
-LAnewusers_Dec21Jan22 <- read.csv("newusers_20201201to20220101.csv",
+LAnewusers_Dec20Jan22 <- read.csv("newusers_20201201to20220101.csv",
 skip = 1, head = FALSE, sep = ",")
 ```
 
 *Data cleaning*
 ```{r}
 #columns renamed
-colnames(LAnewusers_Dec21Jan22) <- c("Country_ID", "2021_01",
+colnames(LAnewusers_Dec20Jan22) <- c("Country_ID", "2021_01",
 "2020_12", "2021_06", "2021_11", "2021_05", "2021_02", "2021_08",
 "2021_12", "2021_07", "2021_10", "2021_09", "2021_04", "2021_03",
 "2022_01", "Totals")
 
 #header rows and data entries for non-Wyss LA countries removed
-LAnewusers_Dec21Jan22 <- LAnewusers_Dec21Jan22 %>%
+LAnewusers_Dec20Jan22 <- LAnewusers_Dec20Jan22 %>%
 filter(Country_ID == "MX" | Country_ID == "AR" | Country_ID == "CO" |
 Country_ID == "GT" | Country_ID == "HN" | Country_ID == "PE" |
 Country_ID == "EC")
 
 #transposed rows/columns
-LAnewusers_Dec21Jan22_2 <- t(LAnewusers_Dec21Jan22[-1])
-colnames(LAnewusers_Dec21Jan22_2) <- LAnewusers_Dec21Jan22[, 1]
+LAnewusers_Dec20Jan22_2 <- t(LAnewusers_Dec20Jan22[-1])
+colnames(LAnewusers_Dec20Jan22_2) <- LAnewusers_Dec20Jan22[, 1]
 
 #making time a recognized column variable
-LAnewusers_Dec21Jan22_2 <- cbind(rownames(LAnewusers_Dec21Jan22_2), 
-  LAnewusers_Dec21Jan22_2)
-rownames(LAnewusers_Dec21Jan22_2) <- NULL
+LAnewusers_Dec20Jan22_2 <- cbind(rownames(LAnewusers_Dec20Jan22_2), 
+  LAnewusers_Dec20Jan22_2)
+rownames(LAnewusers_Dec20Jan22_2) <- NULL
 
 #Totals row removed
-LAnewusers_Dec21Jan22_2 <- LAnewusers_Dec21Jan22_2[-c(15), ]
+LAnewusers_Dec20Jan22_2 <- LAnewusers_Dec20Jan22_2[-c(15), ]
 
 #make it a dataframe
-LAnewusers_Dec21Jan22_2 <- as.data.frame(LAnewusers_Dec21Jan22_2)
+LAnewusers_Dec20Jan22_2 <- as.data.frame(LAnewusers_Dec20Jan22_2)
 ```
 
 ```{r}
@@ -58,34 +58,36 @@ library(tidyr)
 ```
 ```{r}
 #pivot to make CountryID a callable variable
-LAnewusers_Dec21Jan22_3 <- pivot_longer(LAnewusers_Dec21Jan22_2, cols=2:8, names_to = "Country", values_to = "New_users")
+LAnewusers_Dec20Jan22_3 <- pivot_longer(LAnewusers_Dec20Jan22_2, cols=2:8, names_to = "Country", values_to = "New_users")
 
 #rename columns
-colnames(LAnewusers_Dec21Jan22_3) <- c("Year_Month","CountryID","New_Users")
+colnames(LAnewusers_Dec20Jan22_3) <- c("Year_Month","CountryID","New_Users")
 
 #make it a dataframe
-LAnewusers_Dec21Jan22_3 <- as.data.frame(LAnewusers_Dec21Jan22_3)
+LAnewusers_Dec20Jan22_3 <- as.data.frame(LAnewusers_Dec20Jan22_3)
 ```
 
 ```{r}
 #coerce New_Users to numeric variable rather than character
-typeof(LAnewusers_Dec21Jan22_3$New_Users)
-LAnewusers_Dec21Jan22_3$New_Users <- as.numeric(LAnewusers_Dec21Jan22_3$New_Users)
-typeof(LAnewusers_Dec21Jan22_3$New_Users)
+typeof(LAnewusers_Dec20Jan22_3$New_Users)
+LAnewusers_Dec20Jan22_3$New_Users <- as.numeric(LAnewusers_Dec20Jan22_3$New_Users)
+typeof(LAnewusers_Dec20Jan22_3$New_Users)
 
 #coerce Month_Year to date/time object
-as.Date("2020_01", format = "%Y_%m")
-
-LAnewusers_Dec21Jan22_3$New_Users <- as.Date(LAnewusers_Dec21Jan22_3$New_Users, format = "%Y_%m")
-
-ggplot(data = LAnewusers_Dec21Jan22_3_MX, aes(x=Year_Month, y=New_Users)) + 
-  geom_line(aes(color=CountryID)) + labs(x = "Time (year_month)", y = "New Users", title =   "Total new users Mexico, 2020Dec-2022Jan")
+install.packages("zoo")
+library(zoo)
+Year_Month <- LAnewusers_Dec20Jan22_3$Year_Month
+Year_Month_2 <- as.yearmon(as.character(Year_Month), "%Y_%m")
+LAnewusers_Dec20Jan22_3[ , 'Year_Month'] <- Year_Month_2
+typeof(LAnewusers_Dec20Jan22_3$Year_Month)
 ```
 
 
 ```{r}
-ggplot(data = LAnewusers_Dec21Jan22_3, aes(x=Time, y=New_Users)) + 
-  geom_line(aes(color=CountryID)) + labs(x = "Time (year_month)", y = "New Users", title =   "Total new users, LA Wyss countries 2020Dec-2022Jan")
+ggplot(data = LAnewusers_Dec20Jan22_3, aes(x=Year_Month, y=New_Users)) + 
+  geom_line(aes(color=CountryID)) + labs(x = "Time", y = "New Users", 
+  title = "Total new users, LA Wyss countries, 2020Dec-2022Jan") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
 
