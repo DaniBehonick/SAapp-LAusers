@@ -216,7 +216,10 @@ Year_Month_total_2 <- as.yearmon(as.character(Year_Month_total), "%Y_%m")
 LAtotalusers_Dec20Jan22_3[ , 'Year_Month'] <- Year_Month_total_2
 typeof(LAtotalusers_Dec20Jan22_3$Year_Month)
 
+<<<<<<< HEAD
 #jpeg('LAtotalusers_Dec20Jan22_3.jpg')
+=======
+>>>>>>> 85d1bf093096b2bdad2db23321e80d84732b1289
 ggplot(data = LAtotalusers_Dec20Jan22_3, aes(x=Year_Month, y=New_Users)) + 
   geom_line(aes(color=CountryID)) + labs(x = "Year_Month", y = "New Users", 
   title = "Total users, LA Wyss countries, 2020Dec-2022Jan") + 
