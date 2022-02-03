@@ -17,6 +17,7 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 ```
+*NEW USERS*
 ```{r}
 LAnewusers_Dec20Jan22 <- read.csv("newusers_20201201to20220101.csv",
 skip = 1, head = FALSE, sep = ",")
@@ -89,8 +90,50 @@ ggplot(data = LAnewusers_Dec20Jan22_3, aes(x=Year_Month, y=New_Users)) +
   title = "Total new users, LA Wyss countries, 2020Dec-2022Jan") + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
+*RETURN USERS*
+```{r}
+LAreturningusers_Dec20Jan22 <- read.csv("returningusers_20201201to20220101.csv",
+skip = 1, head = FALSE, sep = ",")
+```
 
+*Data cleaning*
+```{r}
+#columns renamed
+colnames(LAreturningusers_Dec20Jan22) <- c("Country_ID", "2021_01",
+"2020_12", "2021_02", "2021_05", "2021_06", "2021_04", "2021_03",
+"2021_12", "2021_10", "2021_07", "2021_11", "2021_09", "2022_01", "Totals")
 
+#header rows and data entries for non-Wyss LA countries removed
+LAreturningusers_Dec20Jan22 <- LAreturningusers_Dec20Jan22 %>%
+filter(Country_ID == "MX" | Country_ID == "AR" | Country_ID == "CO" |
+Country_ID == "GT" | Country_ID == "HN" | Country_ID == "PE" |
+Country_ID == "EC")
+
+#transposed rows/columns
+LAreturningusers_Dec20Jan22_2 <- t(LAreturningusers_Dec20Jan22[-1])
+colnames(LAreturningusers_Dec20Jan22_2) <- LAreturningusers_Dec20Jan22[, 1]
+
+#making time a recognized column variable
+LAreturningusers_Dec20Jan22_2 <- cbind(rownames(LAreturningusers_Dec20Jan22_2), 
+  LAreturningusers_Dec20Jan22_2)
+rownames(LAreturningusers_Dec20Jan22_2) <- NULL
+
+#Totals row removed
+LAreturningusers_Dec20Jan22_2 <- LAreturningusers_Dec20Jan22_2[-c(14), ]
+
+#make it a dataframe
+LAreturningusers_Dec20Jan22_2 <- as.data.frame(LAreturningusers_Dec20Jan22_2)
+
+#START HERE IT'S NOT WORKING
+#pivot to make CountryID a callable variable
+LAreturningusers_Dec20Jan22_3 <- pivot_longer(LAreturningusers_Dec20Jan22, cols=3:9, names_to = "Country", values_to = "New_users")
+
+#rename columns
+colnames(LAreturningusers_Dec20Jan22_3) <- c("Year_Month","CountryID","New_Users")
+
+#make it a dataframe
+LAreturningusers_Dec20Jan22_3 <- as.data.frame(LAreturningusers_Dec20Jan22_3)
+```
 
 
 
