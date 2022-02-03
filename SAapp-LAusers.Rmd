@@ -74,7 +74,7 @@ typeof(LAnewusers_Dec20Jan22_3$New_Users)
 LAnewusers_Dec20Jan22_3$New_Users <- as.numeric(LAnewusers_Dec20Jan22_3$New_Users)
 typeof(LAnewusers_Dec20Jan22_3$New_Users)
 
-#coerce Month_Year to date/time object
+#make Month_Year a date/time object
 install.packages("zoo")
 library(zoo)
 Year_Month <- LAnewusers_Dec20Jan22_3$Year_Month
@@ -124,15 +124,35 @@ LAreturningusers_Dec20Jan22_2 <- LAreturningusers_Dec20Jan22_2[-c(14), ]
 #make it a dataframe
 LAreturningusers_Dec20Jan22_2 <- as.data.frame(LAreturningusers_Dec20Jan22_2)
 
-#START HERE IT'S NOT WORKING
 #pivot to make CountryID a callable variable
-LAreturningusers_Dec20Jan22_3 <- pivot_longer(LAreturningusers_Dec20Jan22, cols=3:9, names_to = "Country", values_to = "New_users")
+LAreturningusers_Dec20Jan22_3 <- pivot_longer(LAreturningusers_Dec20Jan22_2, cols=2:8, names_to = "Country", values_to = "New_users")
 
 #rename columns
 colnames(LAreturningusers_Dec20Jan22_3) <- c("Year_Month","CountryID","New_Users")
 
 #make it a dataframe
 LAreturningusers_Dec20Jan22_3 <- as.data.frame(LAreturningusers_Dec20Jan22_3)
+
+#rename columns
+colnames(LAreturningusers_Dec20Jan22_3) <- c("Year_Month","CountryID","New_Users")
+
+#make it a dataframe
+LAreturningusers_Dec20Jan22_3 <- as.data.frame(LAreturningusers_Dec20Jan22_3)
+
+#coerce New_Users to numeric variable rather than character
+LAreturningusers_Dec20Jan22_3$New_Users <- as.numeric(LAreturningusers_Dec20Jan22_3$New_Users)
+typeof(LAreturningusers_Dec20Jan22_3$New_Users)
+
+#make Month_Year a date/time object
+Year_Month_returning <- LAreturningusers_Dec20Jan22_3$Year_Month
+Year_Month_returning_2 <- as.yearmon(as.character(Year_Month_returning), "%Y_%m")
+LAreturningusers_Dec20Jan22_3[ , 'Year_Month'] <- Year_Month_returning_2
+typeof(LAreturningusers_Dec20Jan22_3$Year_Month)
+
+ggplot(data = LAreturningusers_Dec20Jan22_3, aes(x=Year_Month, y=New_Users)) + 
+  geom_line(aes(color=CountryID)) + labs(x = "Year_Month", y = "New Users", 
+  title = "Total returning users, LA Wyss countries, 2020Dec-2022Jan") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
 
