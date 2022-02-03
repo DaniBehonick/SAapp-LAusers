@@ -212,4 +212,61 @@ ggplot(data = LAtotalusers_Dec20Jan22_3, aes(x=Year_Month, y=Total_Users)) +
 ```
 
 *PREDICTING FUTURE USE*
+New users
+```{r}
+newusers_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3)
 
+New_dates <- data.frame(Year_Month= c("2022_04", "2022_07"))
+New_Year_Month <- New_dates$Year_Month
+New_Year_Month_2 <- as.yearmon(as.character(New_Year_Month), "%Y_%m")
+New_dates[ , 'Year_Month'] <- New_Year_Month_2
+typeof(New_dates$Year_Month)
+
+New_users_prediction_col <- predict(newusers_lm, New_dates)
+New_users_prediction <- cbind(New_dates, New_users_prediction_col)
+```
+
+New users, MX
+```{r, New users MX}
+LAnewusers_Dec20Jan22_3_MX <- LAnewusers_Dec20Jan22_3 %>% filter(CountryID == "MX")
+
+newusers_MX_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3_MX)
+
+New_dates <- data.frame(Year_Month= c("2022_04", "2022_07"))
+New_Year_Month <- New_dates$Year_Month
+New_Year_Month_2 <- as.yearmon(as.character(New_Year_Month), "%Y_%m")
+New_dates[ , 'Year_Month'] <- New_Year_Month_2
+typeof(New_dates$Year_Month)
+
+New_users_prediction_col_MX <- predict(newusers_MX_lm, New_dates)
+New_users_prediction_MX <- cbind(New_dates, New_users_prediction_col_MX)
+```
+
+New users, AR
+```{r, New users AR}
+LAnewusers_Dec20Jan22_3_AR <- LAnewusers_Dec20Jan22_3 %>% filter(CountryID == "AR")
+
+newusers_AR_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3_AR)
+
+New_users_prediction_col_AR <- predict(newusers_AR_lm, New_dates)
+New_users_prediction_AR <- cbind(New_dates, New_users_prediction_col_AR)
+```
+
+New users, CO
+```{r, New users CO}
+LAnewusers_Dec20Jan22_3_CO <- LAnewusers_Dec20Jan22_3 %>% filter(CountryID == "CO")
+
+newusers_CO_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3_CO)
+
+New_users_prediction_col_CO <- predict(newusers_CO_lm, New_dates)
+New_users_prediction_CO <- cbind(New_dates, New_users_prediction_col_CO)
+```
+
+New users, GT
+```{r, New users GT}
+LAnewusers_Dec20Jan22_3_GT <- LAnewusers_Dec20Jan22_3 %>% filter(CountryID == "GT")
+
+newusers_GT_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3_GT)
+
+New_users_prediction_col_GT <- predict(newusers_GT_lm, New_dates)
+New_users_prediction_GT <- cbind(New_dates, New_users_prediction_col_GT)
