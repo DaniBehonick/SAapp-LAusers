@@ -126,23 +126,17 @@ LAreturningusers_Dec20Jan22_2 <- LAreturningusers_Dec20Jan22_2[-c(14), ]
 LAreturningusers_Dec20Jan22_2 <- as.data.frame(LAreturningusers_Dec20Jan22_2)
 
 #pivot to make CountryID a callable variable
-LAreturningusers_Dec20Jan22_3 <- pivot_longer(LAreturningusers_Dec20Jan22_2, cols=2:8, names_to = "Country", values_to = "New_users")
+LAreturningusers_Dec20Jan22_3 <- pivot_longer(LAreturningusers_Dec20Jan22_2, cols=2:8, names_to = "Country", values_to = "Returning_users")
 
 #rename columns
-colnames(LAreturningusers_Dec20Jan22_3) <- c("Year_Month","CountryID","New_Users")
+colnames(LAreturningusers_Dec20Jan22_3) <- c("Year_Month","CountryID","Returning_Users")
 
 #make it a dataframe
 LAreturningusers_Dec20Jan22_3 <- as.data.frame(LAreturningusers_Dec20Jan22_3)
 
-#rename columns
-colnames(LAreturningusers_Dec20Jan22_3) <- c("Year_Month","CountryID","New_Users")
-
-#make it a dataframe
-LAreturningusers_Dec20Jan22_3 <- as.data.frame(LAreturningusers_Dec20Jan22_3)
-
-#coerce New_Users to numeric variable rather than character
-LAreturningusers_Dec20Jan22_3$New_Users <- as.numeric(LAreturningusers_Dec20Jan22_3$New_Users)
-typeof(LAreturningusers_Dec20Jan22_3$New_Users)
+#coerce Returning_Users to numeric variable rather than character
+LAreturningusers_Dec20Jan22_3$Returning_Users <- as.numeric(LAreturningusers_Dec20Jan22_3$Returning_Users)
+typeof(LAreturningusers_Dec20Jan22_3$Returning_Users)
 
 #make Month_Year a date/time object
 Year_Month_returning <- LAreturningusers_Dec20Jan22_3$Year_Month
@@ -151,8 +145,8 @@ LAreturningusers_Dec20Jan22_3[ , 'Year_Month'] <- Year_Month_returning_2
 typeof(LAreturningusers_Dec20Jan22_3$Year_Month)
 
 #jpeg('LAreturningusers_Dec20Jan22_3.jpg')
-ggplot(data = LAreturningusers_Dec20Jan22_3, aes(x=Year_Month, y=New_Users)) + 
-  geom_line(aes(color=CountryID)) + labs(x = "Year_Month", y = "New Users", 
+ggplot(data = LAreturningusers_Dec20Jan22_3, aes(x=Year_Month, y=Returning_Users)) + 
+  geom_line(aes(color=CountryID)) + labs(x = "Year_Month", y = "Returning Users", 
   title = "Total returning users, LA Wyss countries, 2020Dec-2022Jan") + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
@@ -192,23 +186,17 @@ LAtotalusers_Dec20Jan22_2 <- LAtotalusers_Dec20Jan22_2[-c(15), ]
 LAtotalusers_Dec20Jan22_2 <- as.data.frame(LAtotalusers_Dec20Jan22_2)
 
 #pivot to make CountryID a callable variable
-LAtotalusers_Dec20Jan22_3 <- pivot_longer(LAtotalusers_Dec20Jan22_2, cols=2:8, names_to = "Country", values_to = "New_users")
+LAtotalusers_Dec20Jan22_3 <- pivot_longer(LAtotalusers_Dec20Jan22_2, cols=2:8, names_to = "Country", values_to = "Total_users")
 
 #rename columns
-colnames(LAtotalusers_Dec20Jan22_3) <- c("Year_Month","CountryID","New_Users")
+colnames(LAtotalusers_Dec20Jan22_3) <- c("Year_Month","CountryID","Total_Users")
 
 #make it a dataframe
 LAtotalusers_Dec20Jan22_3 <- as.data.frame(LAtotalusers_Dec20Jan22_3)
 
-#rename columns
-colnames(LAtotalusers_Dec20Jan22_3) <- c("Year_Month","CountryID","New_Users")
-
-#make it a dataframe
-LAtotalusers_Dec20Jan22_3 <- as.data.frame(LAtotalusers_Dec20Jan22_3)
-
-#coerce New_Users to numeric variable rather than character
-LAtotalusers_Dec20Jan22_3$New_Users <- as.numeric(LAtotalusers_Dec20Jan22_3$New_Users)
-typeof(LAtotalusers_Dec20Jan22_3$New_Users)
+#coerce Total_Users to numeric variable rather than character
+LAtotalusers_Dec20Jan22_3$Total_Users <- as.numeric(LAtotalusers_Dec20Jan22_3$Total_Users)
+typeof(LAtotalusers_Dec20Jan22_3$Total_Users)
 
 #make Month_Year a date/time object
 Year_Month_total <- LAtotalusers_Dec20Jan22_3$Year_Month
@@ -217,10 +205,11 @@ LAtotalusers_Dec20Jan22_3[ , 'Year_Month'] <- Year_Month_total_2
 typeof(LAtotalusers_Dec20Jan22_3$Year_Month)
 
 #jpeg('LAtotalusers_Dec20Jan22_3.jpg')
-ggplot(data = LAtotalusers_Dec20Jan22_3, aes(x=Year_Month, y=New_Users)) + 
-  geom_line(aes(color=CountryID)) + labs(x = "Year_Month", y = "New Users", 
+ggplot(data = LAtotalusers_Dec20Jan22_3, aes(x=Year_Month, y=Total_Users)) + 
+  geom_line(aes(color=CountryID)) + labs(x = "Year_Month", y = "Total Users", 
   title = "Total users, LA Wyss countries, 2020Dec-2022Jan") + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
+*PREDICTING FUTURE USE*
 
