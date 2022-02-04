@@ -82,13 +82,63 @@ Year_Month_2 <- as.yearmon(as.character(Year_Month), "%Y_%m")
 LAnewusers_Dec20Jan22_3[ , 'Year_Month'] <- Year_Month_2
 typeof(LAnewusers_Dec20Jan22_3$Year_Month)
 ```
+Complete January 2022 analytics data available now! (Previous analysis done mid-January with incomplete data) Let's merge that in ...
+```{r}
+LAnewusers_Jan22Feb22 <- read.csv("newusers_20220101to202220201.csv",
+skip = 1, head = FALSE, sep = ",")
 
+colnames(LAnewusers_Jan22Feb22) <- c("Country_ID", "2022_01",
+"2022_02", "Totals")
+
+LAnewusers_Jan22Feb22 <- LAnewusers_Jan22Feb22 %>%
+filter(Country_ID == "MX" | Country_ID == "AR" | Country_ID == "CO" |
+Country_ID == "GT" | Country_ID == "HN" | Country_ID == "PE" |
+Country_ID == "EC")
+
+LAnewusers_Jan22Feb22_2 <- t(LAnewusers_Jan22Feb22[-1])
+colnames(LAnewusers_Jan22Feb22_2) <- c("MX", "AR", "EC", "PE", "CO", "GT", "HN")
+
+#making time a recognized column variable
+LAnewusers_Jan22Feb22_2 <- cbind(rownames(LAnewusers_Jan22Feb22_2), 
+  LAnewusers_Jan22Feb22_2)
+rownames(LAnewusers_Jan22Feb22_2) <- NULL
+
+LAnewusers_Jan22Feb22_2 <- LAnewusers_Jan22Feb22_2[-c(3), ]
+
+LAnewusers_Jan22Feb22_2 <- as.data.frame(LAnewusers_Jan22Feb22_2)
+
+LAnewusers_Jan22Feb22_3 <- pivot_longer(LAnewusers_Jan22Feb22_2, cols=2:8, names_to = "Country", values_to = "New_users")
+
+colnames(LAnewusers_Jan22Feb22_3) <- c("Year_Month","CountryID","New_Users")
+
+LAnewusers_Jan22Feb22_3 <- as.data.frame(LAnewusers_Jan22Feb22_3)
+
+LAnewusers_Jan22Feb22_3$New_Users <- as.numeric(LAnewusers_Jan22Feb22_3$New_Users)
+
+Year_MonthJanFeb <- LAnewusers_Jan22Feb22_3$Year_Month
+Year_MonthJanFeb_2 <- as.yearmon(as.character(Year_MonthJanFeb), "%Y_%m")
+LAnewusers_Jan22Feb22_3[ , 'Year_Month'] <- Year_MonthJanFeb_2
+typeof(LAnewusers_Jan22Feb22_3$Year_Month)
+
+LAnewusers_Jan22 <- LAnewusers_Jan22Feb22_3 %>% filter(Year_Month == "Jan 2022")
+
+LAnewusers_Dec20Dec21 <- LAnewusers_Dec20Jan22_3 %>% filter(Year_Month != "Jan 2022")
+
+
+LAnewusers_Dec20Jan22full <- rbind(LAnewusers_Dec20Dec21, LAnewusers_Jan22)
+```
 
 ```{r}
 #jpeg('LAnewusers_Dec20Jan22_3.jpg')
-ggplot(data = LAnewusers_Dec20Jan22_3, aes(x=Year_Month, y=New_Users)) + 
+#ggplot(data = LAnewusers_Dec20Jan22_3, aes(x=Year_Month, y=New_Users)) + 
+  #geom_line(aes(color=CountryID)) + labs(x = "Time", y = "New Users", 
+  #title = "Total new users, LA Wyss countries, 2020Dec-2022Jan") + 
+  #theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+#jpeg('LAnewusers_Dec20Jan22full.jpg')
+ggplot(data = LAnewusers_Dec20Jan22full, aes(x=Year_Month, y=New_Users)) + 
   geom_line(aes(color=CountryID)) + labs(x = "Time", y = "New Users", 
-  title = "Total new users, LA Wyss countries, 2020Dec-2022Jan") + 
+  title = "New users, LA Wyss countries, 2020Dec-2022Jan") + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 *RETURN USERS*
@@ -145,13 +195,64 @@ LAreturningusers_Dec20Jan22_3[ , 'Year_Month'] <- Year_Month_returning_2
 typeof(LAreturningusers_Dec20Jan22_3$Year_Month)
 
 #jpeg('LAreturningusers_Dec20Jan22_3.jpg')
-ggplot(data = LAreturningusers_Dec20Jan22_3, aes(x=Year_Month, y=Returning_Users)) + 
-  geom_line(aes(color=CountryID)) + labs(x = "Year_Month", y = "Returning Users", 
-  title = "Total returning users, LA Wyss countries, 2020Dec-2022Jan") + 
+#ggplot(data = LAreturningusers_Dec20Jan22_3, aes(x=Year_Month, y=Returning_Users)) + 
+  #geom_line(aes(color=CountryID)) + labs(x = "Year_Month", y = "Returning Users", 
+  #title = "Total returning users, LA Wyss countries, 2020Dec-2022Jan") + 
+  #theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+```
+Merging in completed Jan 2022 analytics data ...
+```{r}
+LAreturningusers_Jan22Feb22 <- read.csv("returningusers_20220101to20220201.csv",
+skip = 1, head = FALSE, sep = ",")
+
+colnames(LAreturningusers_Jan22Feb22) <- c("Country_ID", "2022_01",
+"2022_02", "Totals")
+
+LAreturningusers_Jan22Feb22 <- LAreturningusers_Jan22Feb22 %>%
+filter(Country_ID == "MX" | Country_ID == "AR" | Country_ID == "CO" |
+Country_ID == "GT" | Country_ID == "HN" | Country_ID == "PE" |
+Country_ID == "EC")
+
+LAreturningusers_Jan22Feb22_2 <- t(LAreturningusers_Jan22Feb22[-1])
+colnames(LAreturningusers_Jan22Feb22_2) <- c("AR", "CO", "EC", "GT", "HN", "MX", "PE")
+
+LAreturningusers_Jan22Feb22_2 <- cbind(rownames(LAreturningusers_Jan22Feb22_2), 
+  LAreturningusers_Jan22Feb22_2)
+rownames(LAreturningusers_Jan22Feb22_2) <- NULL
+
+LAreturningusers_Jan22Feb22_2 <- LAreturningusers_Jan22Feb22_2[-c(3), ]
+
+LAreturningusers_Jan22Feb22_2 <- as.data.frame(LAreturningusers_Jan22Feb22_2)
+
+LAreturningusers_Jan22Feb22_3 <- pivot_longer(LAreturningusers_Jan22Feb22_2, cols=2:8, names_to = "Country", values_to = "Returning_users")
+
+colnames(LAreturningusers_Jan22Feb22_3) <- c("Year_Month","CountryID","Returning_Users")
+
+LAreturningusers_Jan22Feb22_3 <- as.data.frame(LAreturningusers_Jan22Feb22_3)
+
+LAreturningusers_Jan22Feb22_3$Returning_Users <- as.numeric(LAreturningusers_Jan22Feb22_3$Returning_Users)
+
+Year_MonthJanFebRet <- LAreturningusers_Jan22Feb22_3$Year_Month
+Year_MonthJanFebRet_2 <- as.yearmon(as.character(Year_MonthJanFebRet), "%Y_%m")
+LAreturningusers_Jan22Feb22_3[ , 'Year_Month'] <- Year_MonthJanFebRet_2
+typeof(LAreturningusers_Jan22Feb22_3$Year_Month)
+
+LAreturningusers_Jan22 <- LAreturningusers_Jan22Feb22_3 %>% filter(Year_Month == "Jan 2022")
+
+LAreturningusers_Dec20Dec21 <- LAreturningusers_Dec20Jan22_3 %>% filter(Year_Month != "Jan 2022")
+
+LAreturningusers_Dec20Jan22full <- rbind(LAreturningusers_Dec20Dec21, LAreturningusers_Jan22)
+
+#jpeg('LAreturningusers_Dec20Jan22full.jpg')
+ggplot(data = LAreturningusers_Dec20Jan22full, aes(x=Year_Month, y=Returning_Users)) + 
+  geom_line(aes(color=CountryID)) + labs(x = "Time", y = "Returning Users", 
+  title = "Returning users, LA Wyss countries, 2020Dec-2022Jan") + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
+
 *TOTAL USERS*
+Note: analysis done with incomplete analytics data for Jan2022
 ```{r}
 LAtotalusers_Dec20Jan22 <- read.csv("totalusers_20201201to20220101.csv",
 skip = 1, head = FALSE, sep = ",")
@@ -452,3 +553,32 @@ colnames(Total_users_prediction) <- c("Time", "Total users prediction AR", "Tota
 
 write.csv(Total_users_prediction, "Total_users_predictionLA.csv")
 ```
+
+*Data analysis & predictions since SM handle change (August 2021)*
+```{r}
+LAnewusers_Aug21Jan22 <- LAnewusers_Dec20Jan22_3 %>% filter(Year_Month == "Aug 2021" | Year_Month == "Sep 2021" | Year_Month == "Oct 2021" | Year_Month == "Nov 2021" | Year_Month == "Dec 2021" | Year_Month == "Jan 2022")
+
+LAreturningusers_Aug21Jan22 <- LAreturningusers_Dec20Jan22_3 %>% filter(Year_Month == "Aug 2021" | Year_Month == "Sep 2021" | Year_Month == "Oct 2021" | Year_Month == "Nov 2021" | Year_Month == "Dec 2021" | Year_Month == "Jan 2022")
+
+#jpeg('LAnewusers_Aug21Jan22.jpg')
+ggplot(data = LAnewusers_Aug21Jan22, aes(x=Year_Month, y=New_Users)) + 
+  geom_line(aes(color=CountryID)) + labs(x = "Time", y = "New Users", 
+  title = "New users, LA Wyss countries, 2021Aug-2022Jan") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+#jpeg('LAreturningusers_Aug21Jan22.jpg')
+ggplot(data = LAreturningusers_Aug21Jan22, aes(x=Year_Month, y=Returning_Users)) + 
+  geom_line(aes(color=CountryID)) + labs(x = "Time", y = "Returning Users", 
+  title = "Returning users, LA Wyss countries, 2021Aug-2022Jan") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+```
+New users, MX
+```{r, New users MX}
+LAnewusers_Aug21Jan22_MX <- LAnewusers_Aug21Jan22 %>% filter(CountryID == "MX")
+
+newusersAugJan_MX_lm <- lm(New_Users~Year_Month, LAnewusers_Aug21Jan22_MX)
+
+New_usersAugJan_prediction_col_MX <- predict(newusersAugJan_MX_lm, New_dates)
+New_users_predictionAugJan_MX <- cbind(New_dates, New_usersAugJan_prediction_col_MX)
+```
+
