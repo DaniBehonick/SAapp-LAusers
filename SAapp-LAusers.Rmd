@@ -212,20 +212,6 @@ ggplot(data = LAtotalusers_Dec20Jan22_3, aes(x=Year_Month, y=Total_Users)) +
 ```
 
 *PREDICTING FUTURE USE*
-New users
-```{r}
-newusers_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3)
-
-New_dates <- data.frame(Year_Month= c("2022_04", "2022_07"))
-New_Year_Month <- New_dates$Year_Month
-New_Year_Month_2 <- as.yearmon(as.character(New_Year_Month), "%Y_%m")
-New_dates[ , 'Year_Month'] <- New_Year_Month_2
-typeof(New_dates$Year_Month)
-
-New_users_prediction_col <- predict(newusers_lm, New_dates)
-New_users_prediction <- cbind(New_dates, New_users_prediction_col)
-```
-
 New users, MX
 ```{r, New users MX}
 LAnewusers_Dec20Jan22_3_MX <- LAnewusers_Dec20Jan22_3 %>% filter(CountryID == "MX")
@@ -270,3 +256,199 @@ newusers_GT_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3_GT)
 
 New_users_prediction_col_GT <- predict(newusers_GT_lm, New_dates)
 New_users_prediction_GT <- cbind(New_dates, New_users_prediction_col_GT)
+```
+
+New users, HN
+```{r, New users HN}
+LAnewusers_Dec20Jan22_3_HN <- LAnewusers_Dec20Jan22_3 %>% filter(CountryID == "HN")
+
+newusers_HN_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3_HN)
+
+New_users_prediction_col_HN <- predict(newusers_HN_lm, New_dates)
+New_users_prediction_HN <- cbind(New_dates, New_users_prediction_col_HN)
+```
+
+New users, PE
+```{r, New users PE}
+LAnewusers_Dec20Jan22_3_PE <- LAnewusers_Dec20Jan22_3 %>% filter(CountryID == "PE")
+
+newusers_PE_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3_PE)
+
+New_users_prediction_col_PE <- predict(newusers_PE_lm, New_dates)
+New_users_prediction_PE <- cbind(New_dates, New_users_prediction_col_PE)
+```
+
+New users, EC
+```{r, New users EC}
+LAnewusers_Dec20Jan22_3_EC <- LAnewusers_Dec20Jan22_3 %>% filter(CountryID == "EC")
+
+newusers_EC_lm <- lm(New_Users~Year_Month, LAnewusers_Dec20Jan22_3_EC)
+
+New_users_prediction_col_EC <- predict(newusers_EC_lm, New_dates)
+New_users_prediction_EC <- cbind(New_dates, New_users_prediction_col_EC)
+```
+
+```{r}
+New_users_prediction <- cbind(New_dates, New_users_prediction_AR$New_users_prediction_col_AR, New_users_prediction_CO$New_users_prediction_col_CO, New_users_prediction_EC$New_users_prediction_col_EC, New_users_prediction_GT$New_users_prediction_col_GT, New_users_prediction_HN$New_users_prediction_col_HN, New_users_prediction_MX$New_users_prediction_col_MX, New_users_prediction_PE$New_users_prediction_col_PE)
+
+colnames(New_users_prediction) <- c("Time", "New users prediction AR", "New users prediction CO", "New users prediction EC", "New users prediction GT", "New users prediction HN", "New users prediction MX", "New users prediction PE")
+
+write.csv(New_users_prediction, "New_users_predictionLA.csv")
+```
+
+
+Returning users, MX
+```{r, Returning users MX}
+LAreturningusers_Dec20Jan22_3_MX <- LAreturningusers_Dec20Jan22_3 %>% filter(CountryID == "MX")
+
+returningusers_MX_lm <- lm(Returning_Users~Year_Month, LAreturningusers_Dec20Jan22_3_MX)
+
+Returning_users_prediction_col_MX <- predict(returningusers_MX_lm, New_dates)
+Returning_users_prediction_MX <- cbind(New_dates, Returning_users_prediction_col_MX)
+```
+
+Returning users, AR
+```{r, Returning users AR}
+LAreturningusers_Dec20Jan22_3_AR <- LAreturningusers_Dec20Jan22_3 %>% filter(CountryID == "AR")
+
+returningusers_AR_lm <- lm(Returning_Users~Year_Month, LAreturningusers_Dec20Jan22_3_AR)
+
+Returning_users_prediction_col_AR <- predict(returningusers_AR_lm, New_dates)
+Returning_users_prediction_AR <- cbind(New_dates, Returning_users_prediction_col_AR)
+```
+
+Returning users, CO
+```{r, Returning users CO}
+LAreturningusers_Dec20Jan22_3_CO <- LAreturningusers_Dec20Jan22_3 %>% filter(CountryID == "CO")
+
+returningusers_CO_lm <- lm(Returning_Users~Year_Month, LAreturningusers_Dec20Jan22_3_CO)
+
+Returning_users_prediction_col_CO <- predict(returningusers_CO_lm, New_dates)
+Returning_users_prediction_CO <- cbind(New_dates, Returning_users_prediction_col_CO)
+```
+
+Returning users, GT
+```{r, Returning users GT}
+LAreturningusers_Dec20Jan22_3_GT <- LAreturningusers_Dec20Jan22_3 %>% filter(CountryID == "GT")
+
+returningusers_GT_lm <- lm(Returning_Users~Year_Month, LAreturningusers_Dec20Jan22_3_GT)
+
+Returning_users_prediction_col_GT <- predict(returningusers_GT_lm, New_dates)
+Returning_users_prediction_GT <- cbind(New_dates, Returning_users_prediction_col_GT)
+```
+
+Returning users, HN
+```{r, Returning users HN}
+LAreturningusers_Dec20Jan22_3_HN <- LAreturningusers_Dec20Jan22_3 %>% filter(CountryID == "HN")
+
+returningusers_HN_lm <- lm(Returning_Users~Year_Month, LAreturningusers_Dec20Jan22_3_HN)
+
+Returning_users_prediction_col_HN <- predict(returningusers_HN_lm, New_dates)
+Returning_users_prediction_HN <- cbind(New_dates, Returning_users_prediction_col_HN)
+```
+
+Returning users, PE
+```{r, Returning users PE}
+LAreturningusers_Dec20Jan22_3_PE <- LAreturningusers_Dec20Jan22_3 %>% filter(CountryID == "PE")
+
+returningusers_PE_lm <- lm(Returning_Users~Year_Month, LAreturningusers_Dec20Jan22_3_PE)
+
+Returning_users_prediction_col_PE <- predict(returningusers_PE_lm, New_dates)
+Returning_users_prediction_PE <- cbind(New_dates, Returning_users_prediction_col_PE)
+```
+
+Returning users, EC
+```{r, Returning users EC}
+LAreturningusers_Dec20Jan22_3_EC <- LAreturningusers_Dec20Jan22_3 %>% filter(CountryID == "EC")
+
+returningusers_EC_lm <- lm(Returning_Users~Year_Month, LAreturningusers_Dec20Jan22_3_EC)
+
+Returning_users_prediction_col_EC <- predict(returningusers_EC_lm, New_dates)
+Returning_users_prediction_EC <- cbind(New_dates, Returning_users_prediction_col_EC)
+```
+
+```{r}
+Returning_users_prediction <- cbind(New_dates, Returning_users_prediction_AR$Returning_users_prediction_col_AR, Returning_users_prediction_CO$Returning_users_prediction_col_CO, Returning_users_prediction_EC$Returning_users_prediction_col_EC, Returning_users_prediction_GT$Returning_users_prediction_col_GT, Returning_users_prediction_HN$Returning_users_prediction_col_HN, Returning_users_prediction_MX$Returning_users_prediction_col_MX, Returning_users_prediction_PE$Returning_users_prediction_col_PE)
+
+colnames(Returning_users_prediction) <- c("Time", "Returning users prediction AR", "Returning users prediction CO", "Returning users prediction EC", "Returning users prediction GT", "Returning users prediction HN", "Returning users prediction MX", "Returning users prediction PE")
+
+write.csv(Returning_users_prediction, "Returning_users_predictionLA.csv")
+```
+
+Total users, MX
+```{r, Total users MX}
+LAtotalusers_Dec20Jan22_3_MX <- LAtotalusers_Dec20Jan22_3 %>% filter(CountryID == "MX")
+
+totalusers_MX_lm <- lm(Total_Users~Year_Month, LAtotalusers_Dec20Jan22_3_MX)
+
+Total_users_prediction_col_MX <- predict(totalusers_MX_lm, New_dates)
+Total_users_prediction_MX <- cbind(New_dates, Total_users_prediction_col_MX)
+```
+
+Total users, AR
+```{r, Total users AR}
+LAtotalusers_Dec20Jan22_3_AR <- LAtotalusers_Dec20Jan22_3 %>% filter(CountryID == "AR")
+
+totalusers_AR_lm <- lm(Total_Users~Year_Month, LAtotalusers_Dec20Jan22_3_AR)
+
+Total_users_prediction_col_AR <- predict(totalusers_AR_lm, New_dates)
+Total_users_prediction_AR <- cbind(New_dates, Total_users_prediction_col_AR)
+```
+
+Total users, CO
+```{r, Total users CO}
+LAtotalusers_Dec20Jan22_3_CO <- LAtotalusers_Dec20Jan22_3 %>% filter(CountryID == "CO")
+
+totalusers_CO_lm <- lm(Total_Users~Year_Month, LAtotalusers_Dec20Jan22_3_CO)
+
+Total_users_prediction_col_CO <- predict(totalusers_CO_lm, New_dates)
+Total_users_prediction_CO <- cbind(New_dates, Total_users_prediction_col_CO)
+```
+
+Total users, GT
+```{r, Total users GT}
+LAtotalusers_Dec20Jan22_3_GT <- LAtotalusers_Dec20Jan22_3 %>% filter(CountryID == "GT")
+
+totalusers_GT_lm <- lm(Total_Users~Year_Month, LAtotalusers_Dec20Jan22_3_GT)
+
+Total_users_prediction_col_GT <- predict(totalusers_GT_lm, New_dates)
+Total_users_prediction_GT <- cbind(New_dates, Total_users_prediction_col_GT)
+```
+
+Total users, HN
+```{r, Total users HN}
+LAtotalusers_Dec20Jan22_3_HN <- LAtotalusers_Dec20Jan22_3 %>% filter(CountryID == "HN")
+
+totalusers_HN_lm <- lm(Total_Users~Year_Month, LAtotalusers_Dec20Jan22_3_HN)
+
+Total_users_prediction_col_HN <- predict(totalusers_HN_lm, New_dates)
+Total_users_prediction_HN <- cbind(New_dates, Total_users_prediction_col_HN)
+```
+
+Total users, PE
+```{r, Total users PE}
+LAtotalusers_Dec20Jan22_3_PE <- LAtotalusers_Dec20Jan22_3 %>% filter(CountryID == "PE")
+
+totalusers_PE_lm <- lm(Total_Users~Year_Month, LAtotalusers_Dec20Jan22_3_PE)
+
+Total_users_prediction_col_PE <- predict(totalusers_PE_lm, New_dates)
+Total_users_prediction_PE <- cbind(New_dates, Total_users_prediction_col_PE)
+```
+
+Total users, EC
+```{r, Total users EC}
+LAtotalusers_Dec20Jan22_3_EC <- LAtotalusers_Dec20Jan22_3 %>% filter(CountryID == "EC")
+
+totalusers_EC_lm <- lm(Total_Users~Year_Month, LAtotalusers_Dec20Jan22_3_EC)
+
+Total_users_prediction_col_EC <- predict(totalusers_EC_lm, New_dates)
+Total_users_prediction_EC <- cbind(New_dates, Total_users_prediction_col_EC)
+```
+
+```{r}
+Total_users_prediction <- cbind(New_dates, Total_users_prediction_AR$Total_users_prediction_col_AR, Total_users_prediction_CO$Total_users_prediction_col_CO, Total_users_prediction_EC$Total_users_prediction_col_EC, Total_users_prediction_GT$Total_users_prediction_col_GT, Total_users_prediction_HN$Total_users_prediction_col_HN, Total_users_prediction_MX$Total_users_prediction_col_MX, Total_users_prediction_PE$Total_users_prediction_col_PE)
+
+colnames(Total_users_prediction) <- c("Time", "Total users prediction AR", "Total users prediction CO", "Total users prediction EC", "Total users prediction GT", "Total users prediction HN", "Total users prediction MX", "Total users prediction PE")
+
+write.csv(Total_users_prediction, "Total_users_predictionLA.csv")
+```
