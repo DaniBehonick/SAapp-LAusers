@@ -572,13 +572,4 @@ ggplot(data = LAreturningusers_Aug21Jan22, aes(x=Year_Month, y=Returning_Users))
   title = "Returning users, LA Wyss countries, 2021Aug-2022Jan") + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
-New users, MX
-```{r, New users MX}
-LAnewusers_Aug21Jan22_MX <- LAnewusers_Aug21Jan22 %>% filter(CountryID == "MX")
-
-newusersAugJan_MX_lm <- lm(New_Users~Year_Month, LAnewusers_Aug21Jan22_MX)
-
-New_usersAugJan_prediction_col_MX <- predict(newusersAugJan_MX_lm, New_dates)
-New_users_predictionAugJan_MX <- cbind(New_dates, New_usersAugJan_prediction_col_MX)
-```
 
